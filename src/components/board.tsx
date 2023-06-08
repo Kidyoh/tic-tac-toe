@@ -65,7 +65,6 @@ function Board({ playerNames, updateLeaderboard, leaderboard }:BoardProps) {
       setShowPopup(false);
     }
   
-    let status;
     if (!winner) {
       status = `Next player: ${xIsNext ? playerNames.player1 : playerNames.player2}`;
     }
