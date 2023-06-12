@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import player1Profile from '../assets/background.png';
 import player2Profile from '../assets/background.png';
 import { PlayerCard } from './player_card_layout.tsx';
@@ -7,8 +7,6 @@ import Confetti from 'react-dom-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Square } from './square.tsx';
 import { BoardProps } from '../types/player-info';
-import { query, collection, onSnapshot } from '@firebase/firestore';
-import { db } from '../firebase.tsx';
 
 
 const confettiConfig = {
@@ -29,31 +27,11 @@ const confettiConfig = {
 
   
 function Board({ playerNames, updateLeaderboard, leaderboard }:BoardProps) {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [showPopup, setShowPopup] = useState(false);
-  const [winner, setWinner] = useState(null);
-  const [winningSquares, setWinningSquares] = useState([]);
-  useEffect(() => {
-    console.log("Fetching Sqaures");
-
-    const fetchSquares = async () => {
-      const q = query(collection(db, "games"));
-      onSnapshot(q, (querySnapshot) => {
-        const squares: any[] = [];
-        querySnapshot.forEach((doc) => {
-          squares.push(doc.data());
-        });
-        console.log("Current Sqaures: ", squares);
-        setSquares(squares);
-      });
-    }
-
-    fetchSquares();
-
-
-  }, [])
-
+    const [xIsNext, setXIsNext] = useState(true);
+    const [squares, setSquares] = useState(Array(9).fill(null));
+    const [showPopup, setShowPopup] = useState(false);
+    const [winner, setWinner] = useState(null);
+    const [winningSquares, setWinningSquares] = useState([]);
     function handleClick(i: number) {
       if (squares[i] || winner) {
         return;
