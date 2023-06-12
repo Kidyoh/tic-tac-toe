@@ -1,0 +1,45 @@
+.splash-screen {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+  
+  .loading-indicator {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .loading-indicator span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 10px;
+    animation: loading 1s infinite linear;
+  }
+  
+  @keyframes loading {
+    0% {
+      background-color: #ccc;
+    }
+    50% {
+      background-color: #fff;
+    }
+    100% {
+      background-color: #ccc;
+    }
+  }
+  
+  .splash-text {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  

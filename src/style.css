@@ -3,7 +3,9 @@
 @import 'tailwindcss/utilities';
  body{
     margin: 0%;
-    background-color: #efefef;
+    background-color: grey;
+
+
  }
  .bg-image {
   background-color: grey;
@@ -29,6 +31,10 @@
     position: absolute;
     top: 20px;
     right: 20px;
+  }
+
+  .leaderboard-container:hover{
+    box-shadow: 10px;
   }
   
   
