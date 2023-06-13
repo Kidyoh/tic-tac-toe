@@ -1,0 +1,17 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+ body{
+    margin: 0%;
+    background-color: grey;
+
+
+ }
+ .bg-image {
+  background-color: grey;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh;
+  
+  }
