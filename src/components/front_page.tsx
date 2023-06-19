@@ -1,5 +1,7 @@
-import { useState } from 'react';
 import '../layout/FrontPage.css';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Game from '../game';
 
 function FrontPage() {
   const [playerNames, setPlayerNames] = useState({
@@ -8,6 +10,8 @@ function FrontPage() {
   });
   const [selectedCharacter, setSelectedCharacter] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const history = useNavigate();
+
 
   function handleCharacterSelect(character: string) {
     setSelectedCharacter(character);
@@ -36,9 +40,9 @@ function FrontPage() {
     setIsModalOpen(false);
   }
 
-  function handleNameSubmit() {
-    setIsModalOpen(false);
-  }
+  const handleNameSubmit = () => {
+    history('/game', { state: { playerNames, selectedCharacter } });
+};
 
   return (
     <div className="bg-image flex min-h-screen items-center justify-center px-6 py-12">
@@ -116,6 +120,7 @@ function FrontPage() {
         </div>
       )}
     </div>
+
   );
 }
 

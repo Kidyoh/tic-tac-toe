@@ -5,16 +5,18 @@ import { Board } from './components/board';
 import { onSnapshot, doc, collection, getDocs, query, where, setDoc, DocumentData, DocumentReference, addDoc } from '@firebase/firestore';
 import { db } from './firebase';
 import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
-
+import { useLocation } from 'react-router-dom';
 
 
 function Game() {
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
-  const [playerNames, setPlayerNames] = useState({
+  const location = useLocation();
+  const { playerNames: initialPlayerNames, selectedCharacter } = location.state || {};
+
+  const [playerNames, setPlayerNames] = useState(initialPlayerNames || {
     player1: '',
     player2: '',
   });
-
 
 
   useEffect(() => {
@@ -107,8 +109,8 @@ function Game() {
 
   function handlePlayerNameChange(event: React.ChangeEvent<HTMLInputElement>, player: string) {
     const { value } = event.target;
-    setPlayerNames((prevPlayerNames) => ({
-      ...prevPlayerNames,
+    setPlayerNames((initialPlayerNames: any) => ({
+      ...initialPlayerNames,
       [player]: value,
     }));
   }
