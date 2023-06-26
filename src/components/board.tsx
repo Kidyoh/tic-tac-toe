@@ -28,20 +28,17 @@ const confettiConfig = {
 
 
 
-function Board({ playerNames, updateLeaderboard, leaderboard }: BoardProps) {
+function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGameId }: BoardProps) {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [showPopup, setShowPopup] = useState(false);
   const [winner, setWinner] = useState(null);
   const [winningSquares, setWinningSquares] = useState([]);
 
-  const [gameId, setGameId] = useState<string | undefined | null>(null);
+  const [gameId, setGameId] = useState<string | undefined | null>(initialGameId);
   const [isCreating, setIsCreating] = useState<boolean>(false);
-
-
   useEffect(() => {
-
-    if (isCreating) return;
+    if (gameId || isCreating) return; // Don't create a game if a gameId is provided or if we're already creating a game.
 
     setIsCreating(true);
 
@@ -58,10 +55,8 @@ function Board({ playerNames, updateLeaderboard, leaderboard }: BoardProps) {
     }).finally(() => {
       setIsCreating(false);
     });
-
-
   }, []);
-  
+
 
   useEffect(() => {
     //Fetch real-time game data based on the game id
@@ -206,7 +201,7 @@ function Board({ playerNames, updateLeaderboard, leaderboard }: BoardProps) {
           )
         }
       </div>
-
+      <div>
       <AnimatePresence>
         {showPopup && (
           <motion.div
@@ -228,7 +223,7 @@ function Board({ playerNames, updateLeaderboard, leaderboard }: BoardProps) {
           </motion.div>
         )}
       </AnimatePresence>
-
+      </div>
     </>
   );
 }

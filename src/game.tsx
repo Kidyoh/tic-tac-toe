@@ -8,10 +8,13 @@ import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { useLocation } from 'react-router-dom';
 
 
+
 function Game() {
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
   const location = useLocation();
+  const gameId = location.state?.gameId;
   const { playerNames: initialPlayerNames, selectedCharacter } = location.state || {};
+  const [gameData, setGameData] = useState<any>(null);
 
   const [playerNames, setPlayerNames] = useState(initialPlayerNames || {
     player1: '',
@@ -25,7 +28,6 @@ function Game() {
     const auth = getAuth();
     signInAnonymously(auth)
       .then(() => {
-        alert("Signed in as anonymous user");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -93,20 +95,6 @@ function Game() {
 
   }
 
-  // function updateLeaderboard(playerNames: { player1: any; player2: any; }, winner: string) {
-  //   const updatedLeaderboard: any[] = [...leaderboard];
-  //   const playerName = winner === 'X' ? playerNames.player1 : playerNames.player2;
-  //   const existingPlayerIndex = updatedLeaderboard.findIndex((item) => item.name === playerName);
-  //   if (existingPlayerIndex > -1) {
-  //     if (winner) {
-  //       updatedLeaderboard[existingPlayerIndex].wins++;
-  //     }
-  //   } else {
-  //     updatedLeaderboard.push({ name: playerName, wins: winner ? 1 : 0 });
-  //   }
-  //   setLeaderboard(updatedLeaderboard);
-  // }
-
   function handlePlayerNameChange(event: React.ChangeEvent<HTMLInputElement>, player: string) {
     const { value } = event.target;
     setPlayerNames((initialPlayerNames: any) => ({
@@ -120,7 +108,10 @@ function Game() {
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="game-card bg-white-0 rounded-lg p-4 shadow-xl hover:shadow-2xl">
           <div className="game-board mb-4">
-            <Board playerNames={playerNames} updateLeaderboard={updateLeaderboard} leaderboard={leaderboard} />
+            <Board   playerNames={playerNames}
+  updateLeaderboard={updateLeaderboard}
+  leaderboard={leaderboard}
+  gameId={gameId}  />
           </div>
           <div className="flex mb-4">
             <div className="w-1/2">

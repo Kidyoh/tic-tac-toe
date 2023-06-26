@@ -7,4 +7,5 @@ export interface BoardProps {
     playerNames: any
     updateLeaderboard: any
     leaderboard: any
+    gameId: string | null; 
   }
