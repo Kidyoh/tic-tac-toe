@@ -1,7 +1,7 @@
 import '../layout/FrontPage.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Game from '../game';
+// import Game from '../game';
 
 function FrontPage() {
   const [playerNames, setPlayerNames] = useState({
@@ -35,10 +35,10 @@ function FrontPage() {
     setIsModalOpen(true);
   }
 
-  function handleModalClose() {
-    // Close the modal
-    setIsModalOpen(false);
-  }
+  // function handleModalClose() {
+  //   // Close the modal
+  //   setIsModalOpen(false);
+  // }
 
   const handleNameSubmit = () => {
     history('/game', { state: { playerNames, selectedCharacter } });

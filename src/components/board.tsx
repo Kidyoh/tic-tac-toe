@@ -7,7 +7,7 @@ import Confetti from 'react-dom-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Square } from './square.tsx';
 import { BoardProps } from '../types/player-info';
-import { DocumentData, DocumentReference, addDoc, arrayUnion, collection, doc, onSnapshot, updateDoc } from '@firebase/firestore';
+import { DocumentData, DocumentReference, addDoc, collection, doc, updateDoc } from '@firebase/firestore';
 import { db } from '../firebase.tsx';
 
 
@@ -33,7 +33,7 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [showPopup, setShowPopup] = useState(false);
   const [winner, setWinner] = useState(null);
-  const [winningSquares, setWinningSquares] = useState([]);
+  // const [winningSquares, setWinningSquares] = useState([]);
 
   const [gameId, setGameId] = useState<string | undefined | null>(initialGameId);
   const [isCreating, setIsCreating] = useState<boolean>(false);
@@ -63,15 +63,15 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
     if (!gameId) {
       return;
     }
-    const gameDocRef = doc(db, "games", gameId);
+    // const gameDocRef = doc(db, "games", gameId);
   
 
-    const squareRef = onSnapshot(gameDocRef, (docSnapshot) => {
-      if (docSnapshot.exists()) {
-        const gameData = docSnapshot.data();
-        console.log("Current game data is >>>",gameData);
+    // const squareRef = onSnapshot(gameDocRef, (docSnapshot) => {
+    //   if (docSnapshot.exists()) {
+    //     const gameData = docSnapshot.data();
+    //     console.log("Current game data is >>>",gameData);
 
-      }})
+    //   }})
     //fetch from firestore 
 
 
@@ -106,26 +106,26 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
   function isBoardFull(squares: any[]) {
     return squares.every((square) => square !== null);
   }
-  function calculateWinningSquares(squares: any[]) {
-    const winningCombination = calculateWinner(squares);
-    if (winningCombination) {
-      const [a, b, c] = winningCombination;
-      return [a, b, c];
-    }
-    return [];
-  }
+  // function calculateWinningSquares(squares: any[]) {
+  //   const winningCombination = calculateWinner(squares);
+  //   if (winningCombination) {
+  //     const [a, b, c] = winningCombination;
+  //     return [a, b, c];
+  //   }
+  //   return [];
+  // }
 
-  function renderSquare(i: never) {
-    const isWinningSquare = winningSquares.includes(i);
-    return (
-      <Square
-        key={i}
-        value={squares[i]}
-        onClick={() => handleClick(i)}
-        isWinningSquare={isWinningSquare}
-      />
-    );
-  }
+  // function renderSquare(i: never) {
+  //   const isWinningSquare = winningSquares.includes(i);
+  //   return (
+  //     <Square
+  //       key={i}
+  //       value={squares[i]}
+  //       onClick={() => handleClick(i)}
+  //       isWinningSquare={isWinningSquare}
+  //     />
+  //   );
+  // }
 
   function handleRestart() {
     setXIsNext(true);
