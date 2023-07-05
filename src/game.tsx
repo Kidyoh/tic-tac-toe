@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import './style.css';
 import { Board } from './components/board';
-import { onSnapshot, doc, collection, getDocs, query, where, setDoc, DocumentData, DocumentReference, addDoc } from '@firebase/firestore';
+import { onSnapshot, doc, collection, query, setDoc, addDoc } from '@firebase/firestore';
 import { db } from './firebase';
 import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { useLocation } from 'react-router-dom';
@@ -13,10 +13,10 @@ function Game() {
   const [leaderboard, setLeaderboard] = useState<any[]>([]);
   const location = useLocation();
   const gameId = location.state?.gameId;
-  const { playerNames: initialPlayerNames, selectedCharacter } = location.state || {};
-  const [gameData, setGameData] = useState<any>(null);
+  const { playerNames: initialPlayerNames, } = location.state || {};
+  // const [gameData, setGameData] = useState<any>(null);
 
-  const [playerNames, setPlayerNames] = useState(initialPlayerNames || {
+  const [playerNames, setPlayerNames] = useState<any>(initialPlayerNames ||{
     player1: '',
     player2: '',
   });
