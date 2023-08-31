@@ -14,7 +14,7 @@ function Game() {
   const location = useLocation();
   const gameId = location.state?.gameId;
   const { playerNames: initialPlayerNames, } = location.state || {};
-  // const [gameData, setGameData] = useState<any>(null);
+  const [gameData, setGameData] = useState<any>(null);
 
   const [playerNames, setPlayerNames] = useState<any>(initialPlayerNames ||{
     player1: '',
@@ -96,12 +96,12 @@ function Game() {
   }
 
   function handlePlayerNameChange(event: React.ChangeEvent<HTMLInputElement>, player: string) {
-    const { value } = event.target;
-    setPlayerNames((initialPlayerNames: any) => ({
-      ...initialPlayerNames,
-      [player]: value,
-    }));
-  }
+  const { value } = event.target;
+  setPlayerNames((prevPlayerNames: any) => ({
+    ...prevPlayerNames,
+    [player]: value,
+  }));
+}
 
   return (
     <div className=" bg-imageflex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -115,43 +115,48 @@ function Game() {
           </div>
           <div className="flex mb-4">
             <div className="w-1/2">
-              <div className="p-4 border border-white rounded mb-4">
-                <input
-                  type="text-white"
-                  placeholder="Player 1 Name"
-                  value={playerNames.player1}
-                  onChange={(event) => handlePlayerNameChange(event, 'player1')}
-                  className="w-full text-white bg-transparent"
-                />
-              </div>
-            </div>
-            <div className="w-1/4"></div>
-            <div className="w-1/2">
-              <div className="p-4 border border-white rounded">
-                <input
-                  type="text"
-                  placeholder="Player 2 Name"
-                  value={playerNames.player2}
-                  onChange={(event) => handlePlayerNameChange(event, 'player2')}
-                  className="w-full text-white bg-transparent"
-                />
-              </div>
-            </div>
+  <div className="p-4 border border-white rounded mb-4">
+    <input
+      type="text"
+      placeholder="Player 1 Name"
+      value={playerNames.player1} // Use playerNames.player1 here
+      onChange={(event) => handlePlayerNameChange(event, 'player1')}
+      className="w-full text-white bg-transparent"
+    />
+  </div>
+</div>
+<div className="w-1/4"></div>
+<div className="w-1/2">
+  <div className="p-4 border border-white rounded">
+    <input
+      type="text"
+      placeholder="Player 2 Name"
+      value={playerNames.player2} // Use playerNames.player2 here
+      onChange={(event) => handlePlayerNameChange(event, 'player2')}
+      className="w-full text-white bg-transparent"
+    />
+  </div>
+</div>
           </div>
         </div>
         <div className="leaderboard-container">
           <div className="leaderboard">
-            <div className="p-4 border text-white border-gray-300 rounded">
-              <h2>Leaderboard</h2>
-              <ul>
-                {leaderboard.map((item, index) => (
-                  <li key={index}>
-                    {item.player_name}: {item.wins} win{item.wins !== 1 ? 's' : ''}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+  <div className="p-4 border text-white border-gray-300 rounded">
+    <h2>Leaderboard</h2>
+    <ul>
+      {leaderboard.map((item) => {
+        const { player_name, wins } = item;
+
+        return (
+          <li key={player_name}>
+            Player Name: {player_name}, Wins: {wins}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</div>
+
         </div>
       </div>
 

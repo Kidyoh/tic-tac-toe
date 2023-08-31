@@ -63,17 +63,6 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
     if (!gameId) {
       return;
     }
-    // const gameDocRef = doc(db, "games", gameId);
-  
-
-    // const squareRef = onSnapshot(gameDocRef, (docSnapshot) => {
-    //   if (docSnapshot.exists()) {
-    //     const gameData = docSnapshot.data();
-    //     console.log("Current game data is >>>",gameData);
-
-    //   }})
-    //fetch from firestore 
-
 
   }, [gameId])
 
@@ -106,26 +95,6 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
   function isBoardFull(squares: any[]) {
     return squares.every((square) => square !== null);
   }
-  // function calculateWinningSquares(squares: any[]) {
-  //   const winningCombination = calculateWinner(squares);
-  //   if (winningCombination) {
-  //     const [a, b, c] = winningCombination;
-  //     return [a, b, c];
-  //   }
-  //   return [];
-  // }
-
-  // function renderSquare(i: never) {
-  //   const isWinningSquare = winningSquares.includes(i);
-  //   return (
-  //     <Square
-  //       key={i}
-  //       value={squares[i]}
-  //       onClick={() => handleClick(i)}
-  //       isWinningSquare={isWinningSquare}
-  //     />
-  //   );
-  // }
 
   function handleRestart() {
     setXIsNext(true);
@@ -137,20 +106,14 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
   if (!winner) {
     status = `Next player: ${xIsNext ? playerNames.player1 : playerNames.player2}`;
   }
+  const player1Name = playerNames.player1; 
+  const player2Name = playerNames.player2;
   const playerName = winner === 'X' ? playerNames.player1 : playerNames.player2;
   const player1Wins = leaderboard.find((item: { name: any; }) => item.name === playerNames.player1)?.wins || 0;
   const player2Wins = leaderboard.find((item: { name: any; }) => item.name === playerNames.player2)?.wins || 0;
 
   return (
     <>
-      {/* {winner === null && (
-    <div className="status text-center text-white p-6">
-      <div className="p-2 border border-gray-300 rounded">
-        {status}
-      </div>
-    </div>
-  )} */}
-
       <div className="flex items-center justify-center">
 {!gameId &&(
 
@@ -162,12 +125,12 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
 
             <div className="flex justify-between mb-4">
               <div className="w-1/4 mb-4 text-white">
-                <PlayerCard
-                  name={playerNames.player1}
-                  profilePicture={player1Profile}
-                  wins={player1Wins}
-                  isCurrentPlayer={xIsNext}
-                />
+              <PlayerCard
+        name={player1Name} 
+        profilePicture={player1Profile}
+        wins={player1Wins}
+        isCurrentPlayer={xIsNext} 
+      />
               </div>
               <div className="w-1/4 flex justify-center">
                 <div className="board">
@@ -190,12 +153,12 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
               </div>
 
               <div className="w-1/4 mb-4 text-white">
-                <PlayerCard
-                  name={playerNames.player2}
-                  profilePicture={player2Profile}
-                  wins={player2Wins}
-                  isCurrentPlayer={!xIsNext}
-                />
+              <PlayerCard
+        name={player2Name}
+        profilePicture={player2Profile} 
+        wins={player2Wins}
+        isCurrentPlayer={!xIsNext}
+      />
               </div>
             </div>
           )
