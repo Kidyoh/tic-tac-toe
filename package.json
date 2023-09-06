@@ -18,7 +18,8 @@
     "react-dom": "^18.2.0",
     "react-dom-confetti": "^0.2.0",
     "react-router": "^6.12.1",
-    "react-router-dom": "^6.12.1"
+    "react-router-dom": "^6.12.1",
+    "shortid": "^2.2.16"
   },
   "devDependencies": {
     "@firebase/firestore": "^3.12.2",

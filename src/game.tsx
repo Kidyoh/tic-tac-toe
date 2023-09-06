@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import './style.css';
 import { Board } from './components/board';
-import { onSnapshot, doc, collection, query, setDoc, addDoc } from '@firebase/firestore';
+import { onSnapshot, doc, collection, query, setDoc, addDoc, where, getDocs, updateDoc} from '@firebase/firestore';
 import { db } from './firebase';
 import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { useLocation } from 'react-router-dom';
@@ -14,7 +14,6 @@ function Game() {
   const location = useLocation();
   const gameId = location.state?.gameId;
   const { playerNames: initialPlayerNames, } = location.state || {};
-  const [gameData, setGameData] = useState<any>(null);
 
   const [playerNames, setPlayerNames] = useState<any>(initialPlayerNames ||{
     player1: '',
@@ -70,30 +69,44 @@ function Game() {
 
   }, [])
 
+
   const updateLeaderboard = async (playerNames: { player1: any; player2: any; }, winner: string) => {
-    const playerId = winner === 'X' ? '1' : '2';
-    const currentData = leaderboard.find((l) => l.player_id === playerId);
-    console.log("Current Data >>> ", currentData);
-
-    const leaderRef = doc(db, 'leaderboard', playerId);
-    if (currentData) {
-      console.log("Updating Leaderboard ...", playerId);
-      const wins = currentData.wins as number;
-      await setDoc(leaderRef, {
-        'wins': wins + 1,
-      }, { merge: true });
-      console.log("Updating Leaderboar Done!");
-    } else {
-      await setDoc(leaderRef, {
-        'player_id': playerId,
-        'wins': 1,
-        "player_name": winner === 'X' ? playerNames.player1 : playerNames.player2
-      });
+    const playerName = winner === 'X' ? playerNames.player1 : playerNames.player2;
+  
+    // Query the leaderboard collection to check if a player with the same name already exists
+    const leaderboardQuery = query(collection(db, 'leaderboard'), where('player_name', '==', playerName));
+  
+    try {
+      const querySnapshot = await getDocs(leaderboardQuery);
+  
+      if (!querySnapshot.empty) {
+        // Player with the same name already exists, update their wins
+        const leaderboardDoc = querySnapshot.docs[0];
+        const wins = leaderboardDoc.data().wins + 1;
+  
+        // Update the existing leaderboard entry
+        await updateDoc(leaderboardDoc.ref, { wins });
+        console.log("Updated leaderboard entry for player:", playerName);
+      } else {
+        // Player with the same name doesn't exist, create a new entry
+        const newPlayerId = `player_${Date.now()}`;
+        const leaderRef = doc(db, 'leaderboard', newPlayerId);
+  
+        // Create a new leaderboard entry for the player
+        await setDoc(leaderRef, {
+          player_id: newPlayerId,
+          player_name: playerName,
+          wins: 1, // Initialize with 1 win for the new player
+        });
+        console.log("Created new leaderboard entry for player:", playerName);
+      }
+    } catch (error) {
+      // Handle errors if needed
+      console.error("Error updating leaderboard:", error);
     }
-
-
-
-  }
+  };
+  
+  
 
   function handlePlayerNameChange(event: React.ChangeEvent<HTMLInputElement>, player: string) {
   const { value } = event.target;
@@ -142,18 +155,18 @@ function Game() {
         <div className="leaderboard-container">
           <div className="leaderboard">
   <div className="p-4 border text-white border-gray-300 rounded">
-    <h2>Leaderboard</h2>
-    <ul>
-      {leaderboard.map((item) => {
-        const { player_name, wins } = item;
+    <h2 className="text-xl mb-2">Leaderboard</h2>
+    <div className="flex flex-col">
+      {leaderboard.map((leaderboardEntry, index) => (
+        <div key={leaderboardEntry.player_id} className="flex justify-between mb-2">
+          <span>{index + 1}.</span>
+          <span>{leaderboardEntry.player_name}</span>
+          <span>{leaderboardEntry.wins}</span>
+        </div>
+      ))}
 
-        return (
-          <li key={player_name}>
-            Player Name: {player_name}, Wins: {wins}
-          </li>
-        );
-      })}
-    </ul>
+      {leaderboard.length === 0 && <p>No players yet</p>}
+</div>
   </div>
 </div>
 

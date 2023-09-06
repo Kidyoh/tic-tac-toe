@@ -7,7 +7,7 @@ import Confetti from 'react-dom-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Square } from './square.tsx';
 import { BoardProps } from '../types/player-info';
-import { DocumentData, DocumentReference, addDoc, collection, doc, updateDoc } from '@firebase/firestore';
+import { DocumentData, DocumentReference, addDoc, collection, doc, updateDoc} from '@firebase/firestore';
 import { db } from '../firebase.tsx';
 
 
@@ -31,7 +31,7 @@ const confettiConfig = {
 function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGameId }: BoardProps) {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
   const [winner, setWinner] = useState(null);
   // const [winningSquares, setWinningSquares] = useState([]);
 
@@ -45,7 +45,7 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
     //create game document and set current game
     addDoc(collection(db, "games"), {
       next_turn: "X",
-      squares: squares
+      board: squares
     }).then((value: DocumentReference<DocumentData>) => {
       console.log("Document written with ID: ", value.id);
       setGameId(value.id);
@@ -58,13 +58,6 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
   }, []);
 
 
-  useEffect(() => {
-    //Fetch real-time game data based on the game id
-    if (!gameId) {
-      return;
-    }
-
-  }, [gameId])
 
   function handleClick(i: number) {
     if (squares[i] || winner) {
@@ -90,6 +83,7 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
       const gameDocRef = doc(db, "games", gameId);
       updateDoc(gameDocRef, { squares: nextSquares });
     }
+    
   }
 
   function isBoardFull(squares: any[]) {
