@@ -88,7 +88,7 @@ function Game() {
         await updateDoc(leaderboardDoc.ref, { wins });
         console.log("Updated leaderboard entry for player:", playerName);
       } else {
-        // Player with the same name doesn't exist, create a new entry
+        //when a Player with the same name doesn't exist, create a new entry
         const newPlayerId = `player_${Date.now()}`;
         const leaderRef = doc(db, 'leaderboard', newPlayerId);
   
@@ -96,12 +96,11 @@ function Game() {
         await setDoc(leaderRef, {
           player_id: newPlayerId,
           player_name: playerName,
-          wins: 1, // Initialize with 1 win for the new player
+          wins: 1,
         });
         console.log("Created new leaderboard entry for player:", playerName);
       }
     } catch (error) {
-      // Handle errors if needed
       console.error("Error updating leaderboard:", error);
     }
   };

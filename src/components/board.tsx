@@ -31,7 +31,7 @@ const confettiConfig = {
 function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGameId }: BoardProps) {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
   const [winner, setWinner] = useState(null);
   // const [winningSquares, setWinningSquares] = useState([]);
 
@@ -164,7 +164,7 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 12 }}
             className="winner-popup fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center p-4 bg-white border border-gray-300 shadow-md"
           >
             <Confetti active={winner !== null} config={confettiConfig} />
