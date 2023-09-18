@@ -7,7 +7,7 @@ import Confetti from 'react-dom-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Square } from './square.tsx';
 import { BoardProps } from '../types/player-info';
-import { DocumentData, DocumentReference, addDoc, collection, doc, updateDoc} from '@firebase/firestore';
+import { DocumentData, DocumentReference, addDoc, collection, doc, setDoc, updateDoc} from '@firebase/firestore';
 import { db } from '../firebase.tsx';
 
 
@@ -81,7 +81,8 @@ function Board({ playerNames, updateLeaderboard, leaderboard, gameId: initialGam
     }
     if (gameId) {
       const gameDocRef = doc(db, "games", gameId);
-      updateDoc(gameDocRef, { squares: nextSquares });
+      // updateDoc(gameDocRef, { squares: nextSquares });
+      setDoc(gameDocRef, {squares: nextSquares},{merge: true});
     }
     
   }
