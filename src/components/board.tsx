@@ -142,6 +142,7 @@ function Board({  updateLeaderboard, leaderboard, gameId: initialGameId }: Board
           </div>
         )}
       </div>
+      <p>Game created with id {gameId}</p>
       <div>
         <AnimatePresence>
           {showPopup && (
