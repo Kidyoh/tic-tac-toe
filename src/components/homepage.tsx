@@ -8,31 +8,43 @@ function HomePage() {
   const navigate = useNavigate();
   const [player, setPlayer] = useState('');
 
-  const createGame = async () => {
-    try {
-      const gameRef = await addDoc(collection(db, "games"), {
-        state: 'waiting',
-        squares: [null, null, null, null, null, null, null, null, null],
-        playerOne: player,
-        playerTwo: '',
-      });
-  
-      const newGameId = gameRef.id;
-      console.log(`Game created with ID: ${newGameId}`);
-      setGameId(newGameId);
-  
-      navigate('/game', { state: { gameId: newGameId, playerNames: { player1: player, player2: '' } } });
-    } catch (error) {
-      console.error('Error creating a new game:', error);
-    }
-  };
-  
-  const joinGame = () => {
-    navigate('/game', { state: { gameId, playerNames: { player1: '', player2: player } } });
-  };
+const createGame = async () => {
+  try {
+    const gameRef = await addDoc(collection(db, "games"), {
+      state: 'waiting',
+      squares: [null, null, null, null, null, null, null, null, null],
+      playerOne: player,
+      playerTwo: '',
+      name: player,
+    });
+
+    const newGameId = gameRef.id;
+    console.log(`Game created with ID: ${newGameId}`);
+    setGameId(newGameId);
+
+    navigate('/game', { state: { gameId: newGameId, player: 'playerOne' } });
+  } catch (error) {
+    console.error('Error creating a new game:', error);
+  }
+};
+
+const joinGame = async () => {
+  try{
+
+    await addDoc(collection(db, "games"), {
+      name: player,
+    });
 
 
-return (
+  navigate('/game', { state: { gameId, player: 'playerTwo' } });}
+  catch (error) {
+    console.error('Error joining a new game:', error);
+  }
+};
+
+
+
+ return (
   <div>
     <label>
       Enter your name:

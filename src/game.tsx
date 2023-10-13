@@ -73,25 +73,26 @@ function Game() {
   const updateLeaderboard = async (playerNames: { player1: any; player2: any; }, winner: string) => {
     const playerName = winner === 'X' ? playerNames.player1 : playerNames.player2;
   
-  
+    // Query the leaderboard collection to check if a player with the same name already exists
     const leaderboardQuery = query(collection(db, 'leaderboard'), where('player_name', '==', playerName));
   
     try {
       const querySnapshot = await getDocs(leaderboardQuery);
   
       if (!querySnapshot.empty) {
-    
+        // Player with the same name already exists, update their wins
         const leaderboardDoc = querySnapshot.docs[0];
         const wins = leaderboardDoc.data().wins + 1;
   
-       
+        // Update the existing leaderboard entry
         await updateDoc(leaderboardDoc.ref, { wins });
         console.log("Updated leaderboard entry for player:", playerName);
       } else {
-     
+        //when a Player with the same name doesn't exist, create a new entry
         const newPlayerId = `player_${Date.now()}`;
         const leaderRef = doc(db, 'leaderboard', newPlayerId);
   
+        // Create a new leaderboard entry for the player
         await setDoc(leaderRef, {
           player_id: newPlayerId,
           player_name: playerName,
@@ -130,7 +131,7 @@ function Game() {
     <input
       type="text"
       placeholder="Player 1 Name"
-      value={playerNames.player1}
+      value={playerNames.player1} // Use playerNames.player1 here
       onChange={(event) => handlePlayerNameChange(event, 'player1')}
       className="w-full text-white bg-transparent"
     />
@@ -142,7 +143,7 @@ function Game() {
     <input
       type="text"
       placeholder="Player 2 Name"
-      value={playerNames.player2}
+      value={playerNames.player2} // Use playerNames.player2 here
       onChange={(event) => handlePlayerNameChange(event, 'player2')}
       className="w-full text-white bg-transparent"
     />

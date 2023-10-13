@@ -30,6 +30,7 @@ function Board({  updateLeaderboard, leaderboard, gameId: initialGameId }: Board
   const [winner, setWinner] = useState(null);
   const [gameId, setGameId] = useState<string | undefined | null>(initialGameId);
   const playerNames = (location as { state?: { playerNames: { player1: string; player2: string } } }).state?.playerNames || { player1: '', player2: '' };
+  
 
   useEffect(() => {
     if (!gameId) return;
@@ -48,6 +49,8 @@ function Board({  updateLeaderboard, leaderboard, gameId: initialGameId }: Board
       unsubscribe();
     };
   }, [gameId]);
+
+  
 
   function handleClick(i: number) {
     if (squares[i] || winner) {
