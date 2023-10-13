@@ -28,7 +28,7 @@ function Board({  updateLeaderboard, leaderboard, gameId: initialGameId }: Board
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [showPopup, setShowPopup] = useState(false);
   const [winner, setWinner] = useState(null);
-  const [gameId, setGameId] = useState<string | undefined | null>(initialGameId);
+  const [gameId] = useState<string | undefined | null>(initialGameId);
   const playerNames = (location as { state?: { playerNames: { player1: string; player2: string } } }).state?.playerNames || { player1: '', player2: '' };
   
 
