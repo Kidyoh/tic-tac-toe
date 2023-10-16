@@ -115,6 +115,7 @@ function Game() {
     [player]: value,
   }));
 }
+handlePlayerNameChange;
 
   return (
     <div className=" bg-imageflex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
