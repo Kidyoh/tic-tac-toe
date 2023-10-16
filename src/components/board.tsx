@@ -60,7 +60,7 @@ function Board({  updateLeaderboard, leaderboard, gameId: initialGameId }: Board
     const nextSquares = squares.slice();
     nextSquares[i] = xIsNext ? 'X' : 'O';
     setSquares(nextSquares);
-    setXIsNext(!xIsNext);
+    setXIsNext(xIsNext);
 
     const newWinner = calculateWinner(nextSquares);
     if (newWinner === null && isBoardFull(nextSquares)) {

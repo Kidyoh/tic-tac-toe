@@ -21,6 +21,7 @@ function Game() {
   });
 
 
+
   useEffect(() => {
 
 
@@ -123,32 +124,10 @@ function Game() {
             <Board   playerNames={playerNames}
   updateLeaderboard={updateLeaderboard}
   leaderboard={leaderboard}
-  gameId={gameId}  />
+  gameId={gameId}/>
           </div>
           <div className="flex mb-4">
-            <div className="w-1/2">
-  <div className="p-4 border border-white rounded mb-4">
-    <input
-      type="text"
-      placeholder="Player 1 Name"
-      value={playerNames.player1} // Use playerNames.player1 here
-      onChange={(event) => handlePlayerNameChange(event, 'player1')}
-      className="w-full text-white bg-transparent"
-    />
-  </div>
-</div>
 <div className="w-1/4"></div>
-<div className="w-1/2">
-  <div className="p-4 border border-white rounded">
-    <input
-      type="text"
-      placeholder="Player 2 Name"
-      value={playerNames.player2} // Use playerNames.player2 here
-      onChange={(event) => handlePlayerNameChange(event, 'player2')}
-      className="w-full text-white bg-transparent"
-    />
-  </div>
-</div>
           </div>
         </div>
         <div className="leaderboard-container">

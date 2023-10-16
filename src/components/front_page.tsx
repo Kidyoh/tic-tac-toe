@@ -44,6 +44,8 @@ function FrontPage() {
     history('/game', { state: { playerNames, selectedCharacter } });
 };
 
+
+
   return (
     <div className="bg-image flex min-h-screen items-center justify-center px-6 py-12">
       <div className="flex justify-center space-x-4">

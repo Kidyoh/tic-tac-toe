@@ -15,14 +15,16 @@ const createGame = async () => {
       squares: [null, null, null, null, null, null, null, null, null],
       playerOne: player,
       playerTwo: '',
-      name: player,
+      xIsNext: true,
     });
+
+    const isPlayerTurn = true;
 
     const newGameId = gameRef.id;
     console.log(`Game created with ID: ${newGameId}`);
     setGameId(newGameId);
 
-    navigate('/game', { state: { gameId: newGameId, player: 'playerOne' } });
+    navigate('/game', { state: { gameId: newGameId, player: 'playerOne', isPlayerTurn  } });
   } catch (error) {
     console.error('Error creating a new game:', error);
   }
@@ -35,8 +37,10 @@ const joinGame = async () => {
       name: player,
     });
 
+    const isPlayerTurn = false;
 
-  navigate('/game', { state: { gameId, player: 'playerTwo' } });}
+
+  navigate('/game', { state: { gameId, player: 'playerTwo', isPlayerTurn} });}
   catch (error) {
     console.error('Error joining a new game:', error);
   }
