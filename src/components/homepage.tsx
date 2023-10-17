@@ -3,7 +3,7 @@ import { addDoc, collection, doc, getDoc, updateDoc } from '@firebase/firestore'
 import { db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import Container from './container';
-import wavingHAnd from "../../public/images/waving-hand-emoji.png"
+import wavingHAnd from "/images/waving-hand-emoji.png"
 
 function HomePage() {
   const [gameId, setGameId] = useState('');

@@ -6,7 +6,7 @@ import { onSnapshot, doc, collection, query, setDoc, addDoc, where, getDocs, upd
 import { db } from './firebase';
 import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { useLocation } from 'react-router-dom';
-import throphy from "../public/images/trophy.svg"
+import throphy from "/images/trophy.svg"
 
 
 
