@@ -6,6 +6,7 @@ import { onSnapshot, doc, collection, query, setDoc, addDoc, where, getDocs, upd
 import { db } from './firebase';
 import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { useLocation } from 'react-router-dom';
+import throphy from "../public/images/trophy.svg"
 
 
 
@@ -14,6 +15,7 @@ function Game() {
   const location = useLocation();
   const gameId = location.state?.gameId;
   const { playerNames: initialPlayerNames, } = location.state || {};
+  const [isCopied, setIsCopied] = useState(false);
 
   const [playerNames, setPlayerNames] = useState<any>(initialPlayerNames ||{
     player1: '',
@@ -105,7 +107,16 @@ function Game() {
       console.error("Error updating leaderboard:", error);
     }
   };
-  
+  const handleCopy = () => {
+    const textArea = document.createElement('textarea');
+    textArea.value = gameId || '';
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('Copy');
+    document.body.removeChild(textArea);
+    setIsCopied(true);
+  }
+
   
 
   function handlePlayerNameChange(event: React.ChangeEvent<HTMLInputElement>, player: string) {
@@ -118,27 +129,47 @@ function Game() {
 handlePlayerNameChange;
 
   return (
-    <div className=" bg-imageflex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="bg-light h-screen">
       <div className="flex flex-col items-center justify-center h-screen">
-        <div className="game-card bg-white-0 rounded-lg p-4 shadow-xl hover:shadow-2xl">
+        <div className="game-card  rounded-lg p-4 shadow-xl hover:shadow-2xl">
           <div className="game-board mb-4">
             <Board   playerNames={playerNames}
   updateLeaderboard={updateLeaderboard}
   leaderboard={leaderboard}
   gameId={gameId}/>
           </div>
+        
           <div className="flex mb-4">
 <div className="w-1/4"></div>
           </div>
         </div>
+        <p>
+        Game created with id {gameId} <br />
+        <button
+              onClick={handleCopy}
+              className="bg-primary-light text-white font-medium px-6 shadow-md hover:shadow-lg text-lg py-2 rounded-lg hover:scale-105 duration-300 transition"
+            >
+               {isCopied ? 'Copied!' : 'Copy to Clipboard'}
+            </button>
+        
+      </p>
         <div className="leaderboard-container">
           <div className="leaderboard">
-  <div className="p-4 border text-white border-gray-300 rounded">
-    <h2 className="text-xl mb-2">Leaderboard</h2>
+          
+  <div className="p-4 text-black`bg-secondary-light border border-borders rounded-2xl">
+  <div className="flex">
+           
+            <h2 className="text-2xl font-bold text-texts-light pr-6">Leaderboard</h2> <br />
+            <img
+              src={throphy}
+              alt="greetings to the users"
+              className="w-6 hover:-rotate-6 duration-300 hover:scale-110 "
+            />
+          </div>
     <div className="flex flex-col">
       {leaderboard.map((leaderboardEntry, index) => (
         <div key={leaderboardEntry.player_id} className="flex justify-between mb-2">
-          <span>{index + 1}.</span>
+          <span className='text-sml'>{index + 1}.</span>
           <span>{leaderboardEntry.player_name}</span>
           <span>{leaderboardEntry.wins}</span>
         </div>

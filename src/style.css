@@ -1,31 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
- body{
-    margin: 0%;
-    background-color: grey;
 
-
- }
- .bg-image {
-  background-color: grey;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    min-height: 100vh;
-  
-  }
-
-  .square.winner-square:before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: red; /* You can adjust the color of the line here */
-    transform: translateY(-50%) rotate(45deg);
-  }
 
   .leaderboard-container {
     position: absolute;
