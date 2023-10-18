@@ -20,7 +20,7 @@ const confettiConfig = {
   colors: ['#ff0000', '#00ff00', '#0000ff'],
 };
 
-function Board({ updateLeaderboard, leaderboard, gameId: initialGameId }: BoardProps) {
+function Board({ updateLeaderboard, gameId: initialGameId }: BoardProps) {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [showPopup, setShowPopup] = useState(false);
@@ -119,9 +119,7 @@ function Board({ updateLeaderboard, leaderboard, gameId: initialGameId }: BoardP
   if (!winner) {
     status = `Next player: ${xIsNext ? playerNames.player1 : playerNames.player2}`;
   }
-  const playerName = winner === 'X' ? playerNames.player1 : playerNames.player2;
-  const player1Wins = leaderboard.find((item: { name: any; }) => item.name === playerNames.player1)?.wins || 0;
-  const player2Wins = leaderboard.find((item: { name: any; }) => item.name === playerNames.player2)?.wins || 0;
+
 
   console.log("player names are" + player1Name + player2Name)
 
