@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import './style.css';
 import { Board } from './components/board';
-import { onSnapshot, doc, collection, query, setDoc, addDoc, where, getDocs, updateDoc} from '@firebase/firestore';
+import { onSnapshot, doc, collection, query, setDoc, addDoc, where, getDocs, updateDoc } from '@firebase/firestore';
 import { db } from './firebase';
 import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { useLocation } from 'react-router-dom';
 import throphy from "/images/trophy.svg"
+
 
 
 
@@ -17,7 +18,7 @@ function Game() {
   const { playerNames: initialPlayerNames, } = location.state || {};
   const [isCopied, setIsCopied] = useState(false);
 
-  const [playerNames, setPlayerNames] = useState<any>(initialPlayerNames ||{
+  const [playerNames, setPlayerNames] = useState<any>(initialPlayerNames || {
     player1: '',
     player2: '',
   });
@@ -75,18 +76,18 @@ function Game() {
 
   const updateLeaderboard = async (playerNames: { player1: any; player2: any; }, winner: string) => {
     const playerName = winner === 'X' ? playerNames.player1 : playerNames.player2;
-  
+
     // Query the leaderboard collection to check if a player with the same name already exists
     const leaderboardQuery = query(collection(db, 'leaderboard'), where('player_name', '==', playerName));
-  
+
     try {
       const querySnapshot = await getDocs(leaderboardQuery);
-  
+
       if (!querySnapshot.empty) {
         // Player with the same name already exists, update their wins
         const leaderboardDoc = querySnapshot.docs[0];
         const wins = leaderboardDoc.data().wins + 1;
-  
+
         // Update the existing leaderboard entry
         await updateDoc(leaderboardDoc.ref, { wins });
         console.log("Updated leaderboard entry for player:", playerName);
@@ -94,7 +95,7 @@ function Game() {
         //when a Player with the same name doesn't exist, create a new entry
         const newPlayerId = `player_${Date.now()}`;
         const leaderRef = doc(db, 'leaderboard', newPlayerId);
-  
+
         // Create a new leaderboard entry for the player
         await setDoc(leaderRef, {
           player_id: newPlayerId,
@@ -115,70 +116,77 @@ function Game() {
     document.execCommand('Copy');
     document.body.removeChild(textArea);
     setIsCopied(true);
+
   }
 
-  
+
 
   function handlePlayerNameChange(event: React.ChangeEvent<HTMLInputElement>, player: string) {
-  const { value } = event.target;
-  setPlayerNames((prevPlayerNames: any) => ({
-    ...prevPlayerNames,
-    [player]: value,
-  }));
-}
-handlePlayerNameChange;
+    const { value } = event.target;
+    setPlayerNames((prevPlayerNames: any) => ({
+      ...prevPlayerNames,
+      [player]: value,
+    }));
+  }
+  handlePlayerNameChange;
 
   return (
     <div className="bg-light h-screen">
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="game-card  rounded-lg p-4 shadow-xl hover:shadow-2xl">
           <div className="game-board mb-4">
-            <Board   playerNames={playerNames}
-  updateLeaderboard={updateLeaderboard}
-  leaderboard={leaderboard}
-  gameId={gameId}/>
+            <Board playerNames={playerNames}
+              updateLeaderboard={updateLeaderboard}
+              leaderboard={leaderboard}
+              gameId={gameId} />
           </div>
-        
+
           <div className="flex mb-4">
-<div className="w-1/4"></div>
+            <div className="w-1/4"></div>
           </div>
         </div>
-        <p>
-        Game created with id {gameId} <br />
-        <button
+        <br />
+        <div>
+          <div className="input-group">
+          <input value={gameId} readOnly
+             className="bg-secondary-light outline-none  px-5 py-2 border border-primary-light focus:border-2 focus:shadow-md text-center rounded-lg text-lg text-texts-light" />
+              
+          </div>
+          <br />
+          <button
               onClick={handleCopy}
               className="bg-primary-light text-white font-medium px-6 shadow-md hover:shadow-lg text-lg py-2 rounded-lg hover:scale-105 duration-300 transition"
             >
                {isCopied ? 'Copied!' : 'Copy to Clipboard'}
-            </button>
-        
-      </p>
+            </button> 
+        </div>
+
         <div className="leaderboard-container">
           <div className="leaderboard">
-          
-  <div className="p-4 text-black`bg-secondary-light border border-borders rounded-2xl">
-  <div className="flex">
-           
-            <h2 className="text-2xl font-bold text-texts-light pr-6">Leaderboard</h2> <br />
-            <img
-              src={throphy}
-              alt="greetings to the users"
-              className="w-6 hover:-rotate-6 duration-300 hover:scale-110 "
-            />
-          </div>
-    <div className="flex flex-col">
-      {leaderboard.map((leaderboardEntry, index) => (
-        <div key={leaderboardEntry.player_id} className="flex justify-between mb-2">
-          <span className='text-sml'>{index + 1}.</span>
-          <span>{leaderboardEntry.player_name}</span>
-          <span>{leaderboardEntry.wins}</span>
-        </div>
-      ))}
 
-      {leaderboard.length === 0 && <p>No players yet</p>}
-</div>
-  </div>
-</div>
+            <div className="p-4 text-black`bg-secondary-light border border-borders rounded-2xl">
+              <div className="flex">
+
+                <h2 className="text-2xl font-bold text-texts-light pr-6">Leaderboard</h2> <br />
+                <img
+                  src={throphy}
+                  alt="greetings to the users"
+                  className="w-6 hover:-rotate-6 duration-300 hover:scale-110 "
+                />
+              </div>
+              <div className="flex flex-col">
+                {leaderboard.map((leaderboardEntry, index) => (
+                  <div key={leaderboardEntry.player_id} className="flex justify-between mb-2">
+                    <span className='text-sml'>{index + 1}.</span>
+                    <span>{leaderboardEntry.player_name}</span>
+                    <span>{leaderboardEntry.wins}</span>
+                  </div>
+                ))}
+
+                {leaderboard.length === 0 && <p>No players yet</p>}
+              </div>
+            </div>
+          </div>
 
         </div>
       </div>
