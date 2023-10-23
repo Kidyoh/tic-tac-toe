@@ -69,13 +69,13 @@ function HomePage() {
             <img
               src={wavingHAnd}
               alt="greetings to the users"
-              className="w-10 hover:-rotate-6 duration-300 hover:scale-110 "
+              className="w-10 hover:-rotate-6 duration-300 hover:scale-110"
             />
             <h2 className="text-4xl font-bold text-texts-light">Hi</h2>
           </div>
-          <div className="text-texts-light text-center text-xl ">
-            <p className="tracking-widest font-light">welcome to Shega XO game</p>
-            <p className="font-medium">please enter Players name:</p>
+          <div className="text-texts-light text-center text-xl">
+            <p className="tracking-widest font-light">Welcome to Shega XO game</p>
+            <p className="font-medium">Please enter players' names:</p>
           </div>
           <div className="flex justify-center gap-4 flex-col">
             <input
@@ -85,16 +85,21 @@ function HomePage() {
               name="name1"
               id="name1"
               placeholder="Your Name"
-              className="bg-secondary-light outline-none  px-5 py-2 border border-primary-light focus:border-2 focus:shadow-md text-center rounded-lg text-lg text-texts-light"
+              className="bg-secondary-light outline-none px-5 py-2 border border-primary-light focus:border-2 focus:shadow-md text-center rounded-lg text-lg text-texts-light"
             />
             <button
               onClick={createGame}
               type="button"
               className="bg-primary-light text-white font-medium px-6 shadow-md hover:shadow-lg text-lg py-2 rounded-lg hover:scale-105 duration-300 transition"
-            >Create a Game</button>
-
-            <input value={gameId} onChange={e => setGameId(e.target.value)} placeholder="Enter game ID" 
-             className="bg-secondary-light outline-none  px-5 py-2 border border-primary-light focus:border-2 focus:shadow-md text-center rounded-lg text-lg text-texts-light" />
+            >
+              Create a Game
+            </button>
+            <input
+              value={gameId}
+              onChange={(e) => setGameId(e.target.value)}
+              placeholder="Enter game ID"
+              className="bg-secondary-light outline-none px-5 py-2 border border-primary-light focus:border-2 focus:shadow-md text-center rounded-lg text-lg text-texts-light"
+            />
             <button
               onClick={joinGame}
               type="button"
@@ -106,8 +111,6 @@ function HomePage() {
         </Container>
       </main>
     </div>
-
-
   );
 }
 
