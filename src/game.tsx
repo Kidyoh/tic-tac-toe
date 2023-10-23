@@ -23,6 +23,8 @@ function Game() {
 
 
 
+
+
   useEffect(() => {
 
 
@@ -115,6 +117,8 @@ function Game() {
     document.body.removeChild(textArea);
     setIsCopied(true);
 
+
+    
   }
 
 
@@ -142,7 +146,7 @@ function Game() {
         </div>
         <br />
         <div>
-          <div className="input-group">
+        <div className="input-group">
             <input
               value={gameId}
               readOnly
